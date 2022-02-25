@@ -50,7 +50,7 @@ public class SwordController : MonoBehaviour
 
     IEnumerator ResetAttackBool()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(AttackCooldown);
         isAttacking = false;
     }
 }

@@ -3,19 +3,20 @@
 //Brackeys - https://www.youtube.com/watch?v=znZXmmyBF-o
 //DaveGameDevelopment - https://www.youtube.com/watch?v=UjkSFoLxesw
 //Jayanam - https://www.youtube.com/watch?v=Zjlg9F3FRJs
+//KeySmash Studios - https://www.youtube.com/watch?v=22PZJlpDkPE
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AILogic : MonoBehaviour
 {
     private NavMeshAgent agent;
+    private Animator anim;
     public float speed = 6f;
     public Transform player;
     public LayerMask whatIsPlayer, whatIsGround;
 
-    public Vector3 walkPoint;
-    bool walkPointSet;
     public float walkRange;
 
     //Attacking
@@ -38,41 +39,38 @@ public class AILogic : MonoBehaviour
 
     private GameObject[] healthPoints;
 
-    public float EnemyDistanceRun = 6f;
+    public float EnemyDistanceRun = 12f;
 
+    [Header ("Set Patrol Points Here")]
+    public Transform[] patrolPoints;
+    //Which patrol point the AI is currently at
+    private int patrolPointsIndex;
 
-    private Animator anim;
-
-
-    private void SearchWalkPoint()
-    {
-        float randomZ = Random.Range(-walkRange, walkRange);
-        float randomX = Random.Range(-walkRange, walkRange);
-
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
-    }
 
     private void Patrolling()
     {
-        if (!walkPointSet) SearchWalkPoint();
+        agent.SetDestination(patrolPoints[patrolPointsIndex].position);
+        anim.SetBool("walking", true);
 
-        if (walkPointSet)
+        Vector3 distanceToPatrolPoint = transform.position - patrolPoints[patrolPointsIndex].position;
+        
+        /*Debug.Log(patrolPointsIndex);
+        Debug.Log(distanceToPatrolPoint.magnitude);*/
+
+        //Patrol Point reached
+        if (distanceToPatrolPoint.magnitude < 1.5f)
         {
-            agent.SetDestination(walkPoint);
-            anim.SetBool("walking", true);
-
-        }
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-        {
-            walkPointSet = false;
             anim.SetBool("walking", false);
+            IncreaseIndex();
+        }
+    }
+
+    private void IncreaseIndex()
+    {
+        patrolPointsIndex++;
+        if(patrolPointsIndex >= patrolPoints.Length)
+        {
+            patrolPointsIndex = 0;
         }
     }
 
@@ -88,7 +86,10 @@ public class AILogic : MonoBehaviour
         agent.SetDestination(transform.position);
         anim.SetBool("walking", false);
 
-        transform.LookAt(player);
+        //make AI only look at player in Y axis
+        Vector3 lookAtPosition = player.position;
+        lookAtPosition.y = transform.position.y;
+        transform.LookAt(lookAtPosition);
 
         if (!alreadyAttacked)
         {
@@ -133,7 +134,14 @@ public class AILogic : MonoBehaviour
                 Debug.Log("running from player");
             }
         }
-    }   
+        StartCoroutine(RunFromPlayerCooldown());
+    }
+
+    IEnumerator RunFromPlayerCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        //if(aiAgent != null) ChasePlayer();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -142,9 +150,10 @@ public class AILogic : MonoBehaviour
         agentHealth = GetComponent<AIHealth>();
         anim = GetComponent<Animator>();
         agent.speed = speed;
-
         healthPoints = GameObject.FindGameObjectsWithTag("HealthPoint");
 
+
+        patrolPointsIndex = 0;
     }
 
     private void Awake()
@@ -174,6 +183,7 @@ public class AILogic : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, sightRange);
     }

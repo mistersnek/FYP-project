@@ -7,6 +7,7 @@ public class DestroySelfBullet : MonoBehaviour
     private void Start()
     {
         // particle.Stop();
+
     }
 
     //On collision with objects with tags, play the particle system and destroy itself

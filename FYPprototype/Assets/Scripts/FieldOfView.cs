@@ -8,11 +8,15 @@ using UnityEngine;
 public class FieldOfView : MonoBehaviour
 {
     public float radius;
+    private float curRadius;
     //limits the angle to 360 degrees
     [Range(0,360)]
     public float angle;
 
+    private float curAngle;
+
     public GameObject player;
+    public ThirdPersonMovement crouch;
 
     public LayerMask targetMask;
     public LayerMask obstructionMask;
@@ -23,7 +27,10 @@ public class FieldOfView : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        crouch = player.GetComponent<ThirdPersonMovement>();
         StartCoroutine(FOVRoutine());
+        curRadius = radius;
+        curAngle = angle;
     }
 
 
@@ -43,6 +50,17 @@ public class FieldOfView : MonoBehaviour
     {
         Collider[] rangeChecks = Physics.OverlapSphere(transform.position, radius, targetMask);
 
+        if (crouch.isCrouched == true && canSeePlayer == false)
+        {
+            angle = curAngle / 2;
+            radius = curRadius / 2;
+        } 
+            else if (crouch.isCrouched == false || canSeePlayer == true)
+        {
+            angle = curAngle;
+            radius = curRadius;
+        }
+
         if(rangeChecks.Length != 0)
         {
             Transform target = rangeChecks[0].transform;
@@ -57,8 +75,6 @@ public class FieldOfView : MonoBehaviour
                     canSeePlayer = true;
                 else
                     canSeePlayer = false;
-                    
-                
             }
             else
                 canSeePlayer = false;

@@ -14,7 +14,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public Transform cam;
 
     [Header("Walking Speed")]
-    float speed = 4f;
+    float speed = 6f;
     public float currentSpeed;
 
     [Header("How smooth turning is")]
@@ -28,9 +28,11 @@ public class ThirdPersonMovement : MonoBehaviour
     public GameObject playerCharacter;
     private Animator anim;
 
-    bool isCrouched;
+    public bool isCrouched;
 
     public float gravity = 20.0f;
+
+    private Vector3 direction;
 
     void Start()
     {
@@ -48,8 +50,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-
         Run();
+
+        if (!controller.isGrounded)
+            controller.SimpleMove(new Vector3 (0,-1,0));
 
         if (direction.magnitude >= 0.1f)
         {
@@ -64,25 +68,22 @@ public class ThirdPersonMovement : MonoBehaviour
             //move the player according to the key pressed
             controller.Move(moveDir.normalized * currentSpeed * Time.deltaTime);
 
-            if(currentSpeed > speed)
+            if (currentSpeed > speed)
             {
                 anim.SetFloat("Speed", 1.0f, 0.1f, Time.deltaTime);
-            } else
+            }
+            else
             {
                 anim.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
+                anim.SetFloat("Velocity", 1.0f, 0.1f, Time.deltaTime);
             }
-            
 
         }
-        else anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
+        else { 
+            anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime); 
+            anim.SetFloat("Velocity", 0f, 0.1f, Time.deltaTime);
+        }
 
-        /*if (Input.GetButton("Jump"))
-        {
-            Debug.Log("space was pressed");
-            direction.y = 5f;
-            direction.y -= gravity * Time.deltaTime;
-            controller.Move(direction * Time.deltaTime);
-        }*/
 
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -95,10 +96,6 @@ public class ThirdPersonMovement : MonoBehaviour
             {
                 Crouch();
                 isCrouched = true;
-                if (Input.anyKeyDown)
-                    anim.SetBool("crouchWalking", true);
-                else if (!Input.anyKeyDown)
-                    anim.SetBool("crouchWalking", false);
             }
         }
     }
@@ -106,20 +103,29 @@ public class ThirdPersonMovement : MonoBehaviour
     public void Crouch()
     {
         anim.SetBool("crouching", true);
-        controller.height = 0.5f;        
+        controller.height = 2.0f;
+        controller.center = new Vector3 (0, -0.12f, 0.3f);
+        isCrouched = true;
     }
-    
     public void Stand()
     {
         anim.SetBool("crouching", false);
         controller.height = 2.74f;
+        controller.center = new Vector3 (0, 0.29f, 0);
+        isCrouched = false;
     }
-
     public void Run()
     {
         if (Input.GetKey(KeyCode.LeftShift) && isCrouched == false)
             currentSpeed = speed * 1.2f;
         else
             currentSpeed = speed;
+    }
+    public void Jump()
+    {
+        Debug.Log("space was pressed");
+        direction.y = 5f;
+        direction.y -= gravity * Time.deltaTime;
+        controller.Move(direction * Time.deltaTime);
     }
 }

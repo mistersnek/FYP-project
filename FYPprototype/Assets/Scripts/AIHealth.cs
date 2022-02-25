@@ -21,15 +21,19 @@ public class AIHealth : MonoBehaviour
         currentHealth -= amount;
         Debug.Log("Current health:" +currentHealth);
 
-        if(currentHealth <= 0.0f) Die();
+        if(currentHealth <= 0.0f) Ragdoll();
 
     }
 
-    private void Die()
+    private void Ragdoll()
     {
-        Destroy(gameObject);
+        MonoBehaviour[] scripts = gameObject.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts)
+        {
+            script.enabled = false;
+        }
+        GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<Animator>().enabled = false;
+        GetComponent<CapsuleCollider>().enabled = false;
     }
-
-   
-
 }
