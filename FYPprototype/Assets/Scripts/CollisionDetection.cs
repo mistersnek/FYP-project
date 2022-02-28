@@ -11,7 +11,6 @@ public class CollisionDetection : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(sc.isAttacking)
-        {
             if (other.gameObject.CompareTag("AI") && !hasAttacked)
             {
                 Debug.Log("attacked");
@@ -21,4 +20,3 @@ public class CollisionDetection : MonoBehaviour
             }
         }
     }
-}
