@@ -36,6 +36,7 @@ public class SwordController : MonoBehaviour
         anim.SetTrigger("attacking");
         AudioSource ac = GetComponent<AudioSource>();
         ac.PlayOneShot(swordAttackSound);
+        
         StartCoroutine(ResetAttackCooldown());
     }
 

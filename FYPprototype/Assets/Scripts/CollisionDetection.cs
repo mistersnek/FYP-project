@@ -5,7 +5,7 @@ public class CollisionDetection : MonoBehaviour
     public SwordController sc;
     public AIHealth damage;
     public GameObject hitParticle;
-    public int swordDamage = 60;
+    public int swordDamage = 20;
     public bool hasAttacked;
 
     private void OnTriggerEnter(Collider other)
