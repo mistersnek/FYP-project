@@ -6,6 +6,7 @@
 //KeySmash Studios - https://www.youtube.com/watch?v=22PZJlpDkPE
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,10 +44,13 @@ public class AILogic : MonoBehaviour
 
     [Header ("Set Patrol Points Here")]
     public Transform[] patrolPoints;
+
     //Which patrol point the AI is currently at
-    private int patrolPointsIndex;
+    public int patrolPointsIndex;
 
+    public Dictionary<string, Transform[]> arrays;
 
+    //feito (NOT REALLY)
     private void Patrolling()
     {
         agent.SetDestination(patrolPoints[patrolPointsIndex].position);
@@ -74,12 +78,15 @@ public class AILogic : MonoBehaviour
         }
     }
 
+    //feito (estava funcionar)
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
         anim.SetBool("walking", true);
     }
 
+
+    //por fazer...
     private void AttackPlayer()
     {
         //make sure enemy doesnt move
@@ -151,9 +158,12 @@ public class AILogic : MonoBehaviour
         anim = GetComponent<Animator>();
         agent.speed = speed;
         healthPoints = GameObject.FindGameObjectsWithTag("HealthPoint");
-
-
         patrolPointsIndex = 0;
+
+        arrays = new Dictionary<string, Transform[]>
+        {
+            { "patrolPoints", patrolPoints},
+        };
     }
 
     private void Awake()
