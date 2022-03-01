@@ -28,8 +28,6 @@ public class AIHealth : MonoBehaviour
         Debug.Log("Current health:" +currentHealth);
 
         if (currentHealth <= 0.0f)   Ragdoll();
-
-
     }
 
     private void Ragdoll()

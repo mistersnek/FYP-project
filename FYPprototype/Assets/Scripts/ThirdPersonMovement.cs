@@ -121,11 +121,11 @@ public class ThirdPersonMovement : MonoBehaviour
         else
             currentSpeed = speed;
     }
-    public void Jump()
+    /*public void Jump()
     {
         Debug.Log("space was pressed");
         direction.y = 5f;
         direction.y -= gravity * Time.deltaTime;
         controller.Move(direction * Time.deltaTime);
-    }
+    }*/
 }
