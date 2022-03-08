@@ -14,7 +14,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public Transform cam;
 
     [Header("Walking Speed")]
-    float speed = 6f;
+    float speed = 5f;
     public float currentSpeed;
 
     [Header("How smooth turning is")]
@@ -30,20 +30,30 @@ public class ThirdPersonMovement : MonoBehaviour
 
     public bool isCrouched;
 
-    public float gravity = 20.0f;
-
-    private Vector3 direction;
+    [Header ("Gravity Stuff")]
+    [SerializeField]
+    private float gravity = 9f;
 
     void Start()
     {
         currentSpeed = speed;
         Cursor.lockState = CursorLockMode.Locked;
         anim = GetComponentInChildren<Animator>();
+        Physics.IgnoreLayerCollision(6,8);
     }
 
     // Update is called once per frame
     void Update()
     {
+        foreach(Transform child in transform)
+        {
+            if(child.name == "Player Character")
+            {
+                child.localPosition = Vector3.zero;
+            }
+        }
+
+
         //assign vertical and horizontal keys to a vector 3
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
@@ -52,17 +62,28 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Run();
 
-        if (!controller.isGrounded)
-            controller.SimpleMove(new Vector3 (0,-1,0));
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (isCrouched)
+            {
+                Stand();
+                isCrouched = false;
+            }
+            else
+            {
+                Crouch();
+                isCrouched = true;
+            }
+        }
 
         if (direction.magnitude >= 0.1f)
         {
-            //points the character according to the key pressed
+            //points the character to where the camera is pointing
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
             //smoothing of the turning of the player
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelocity, turnSmoothing);
+            //apply smoothness angle
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
             moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
             //move the player according to the key pressed
@@ -79,53 +100,38 @@ public class ThirdPersonMovement : MonoBehaviour
             }
 
         }
-        else { 
-            anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime); 
+        else
+        {
+            anim.SetFloat("Speed", 0f, 0.1f, Time.deltaTime);
             anim.SetFloat("Velocity", 0f, 0.1f, Time.deltaTime);
         }
 
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            if (isCrouched)
-            {
-                Stand();
-                isCrouched = false;
-            }
-            else
-            {
-                Crouch();
-                isCrouched = true;
-            }
-        }
+        direction.y -= gravity * Time.deltaTime;
+        controller.SimpleMove(direction * Time.deltaTime);
     }
 
     public void Crouch()
     {
         anim.SetBool("crouching", true);
-        controller.height = 2.0f;
-        controller.center = new Vector3 (0, -0.12f, 0.3f);
+        controller.height = 1.43f;
+        controller.radius = 0.54f;
+        controller.center = new Vector3 (0f, 0.7f, -0.09f);
         isCrouched = true;
     }
     public void Stand()
     {
         anim.SetBool("crouching", false);
-        controller.height = 2.74f;
-        controller.center = new Vector3 (0, 0.29f, 0);
+        controller.height = 1.72f;
+        controller.radius = 0.34f;
+        controller.center = new Vector3 (0f, 0.89f, 0.06f);
         isCrouched = false;
     }
     public void Run()
     {
         if (Input.GetKey(KeyCode.LeftShift) && isCrouched == false)
-            currentSpeed = speed * 1.2f;
+            currentSpeed = speed * 1.5f;
         else
             currentSpeed = speed;
     }
-    /*public void Jump()
-    {
-        Debug.Log("space was pressed");
-        direction.y = 5f;
-        direction.y -= gravity * Time.deltaTime;
-        controller.Move(direction * Time.deltaTime);
-    }*/
+
 }

@@ -6,8 +6,13 @@ public class AIHealth : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
+    private int timesAttackedCounter;
     public float maxHealth;
     public NavMeshAgent agent;
+    private Animator anim;
+
+    [HideInInspector]
+    public bool gotAttacked;
 
     public GameObject agentRig;
     Collider[] ragdollColliders;
@@ -25,9 +30,16 @@ public class AIHealth : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        Debug.Log("Current health:" +currentHealth);
+        Debug.Log("Current health:" + currentHealth);
+        gotAttacked = true;
 
-        if (currentHealth <= 0.0f)   Ragdoll();
+        if (currentHealth <= 0.0f) Ragdoll();
+
+        timesAttackedCounter++;
+    }
+    public void IncreaseHealth(float amount)
+    {
+        currentHealth = currentHealth + amount;
     }
 
     private void Ragdoll()
@@ -40,6 +52,9 @@ public class AIHealth : MonoBehaviour
         foreach (Collider coll in ragdollColliders) 
             coll.enabled = true;
 
+        Collider col = gameObject.GetComponent<CapsuleCollider>();
+        col.enabled = false;
+
         foreach (Rigidbody rigd in rigidBodies)
             rigd.isKinematic = false;
 
@@ -47,7 +62,7 @@ public class AIHealth : MonoBehaviour
        // GetComponent<CapsuleCollider>().enabled = false;
     }
 
-    private void RagdollOff()
+    public void RagdollOff()
     {
         foreach(Collider coll in ragdollColliders)
             coll.enabled = true;
@@ -61,5 +76,6 @@ public class AIHealth : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         ragdollColliders = agentRig.GetComponentsInChildren<Collider>();
         rigidBodies = agentRig.GetComponentsInChildren<Rigidbody>();
+        anim = agent.GetComponent<Animator>();
     }
 }

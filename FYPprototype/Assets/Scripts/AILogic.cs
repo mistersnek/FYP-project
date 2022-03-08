@@ -6,23 +6,28 @@
 //KeySmash Studios - https://www.youtube.com/watch?v=22PZJlpDkPE
 
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class AILogic : MonoBehaviour
 {
+    //reference to the nav mesh agent, animator
     private NavMeshAgent agent;
     private Animator anim;
+
+    //speed at which agent can walk
     public float speed = 6f;
+
+    //reference to the player and a layer mask to identify what is the player
     public Transform player;
-    public LayerMask whatIsPlayer, whatIsGround;
+    public LayerMask whatIsPlayer;
 
-    public float walkRange;
 
-    //Attacking
+    //Attacking cooldown
     public float timeBetweenAttacks;
     bool alreadyAttacked;
+
+    //the projectile to be used and the point it is instantiated from
     public GameObject projectile;
     public GameObject bulletPoint;
 
@@ -30,27 +35,33 @@ public class AILogic : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInRange, playerAttackRange;
 
+    //force and speed of the projectile instantiated at the bullet point position
     [Header("Projectile Speed and Upwards force")]
     public float bulletSpeed = 90f;
     public float upwardForce = 2f;
 
+    //references to the ai agent itself, the script FOV and aiHealth
     public GameObject aiAgent;
     private FieldOfView aiFOV;
     private AIHealth agentHealth;
 
+    //array of healthpoints that saves their positions 3D
     private GameObject[] healthPoints;
 
+    //distance the enemy runs from player when too low on health
     public float EnemyDistanceRun = 12f;
 
     [Header ("Set Patrol Points Here")]
     public Transform[] patrolPoints;
 
     //Which patrol point the AI is currently at
-    public int patrolPointsIndex;
+    public int patrolPointsIndex = 0;
 
-    public Dictionary<string, Transform[]> arrays;
-
-    //feito (NOT REALLY)
+    //IEnumerator allows for cooldowns but is inneficient (apparently)
+    IEnumerator ActionCooldown(float cooldownTime)
+    {
+        yield return new WaitForSeconds(cooldownTime);
+    }
     private void Patrolling()
     {
         agent.SetDestination(patrolPoints[patrolPointsIndex].position);
@@ -67,8 +78,12 @@ public class AILogic : MonoBehaviour
             anim.SetBool("walking", false);
             IncreaseIndex();
         }
-    }
 
+        if(agentHealth.gotAttacked == true)
+        {
+            transform.LookAt(new Vector3(player.position.x, 0, player.position.z));
+        }
+    }
     private void IncreaseIndex()
     {
         patrolPointsIndex++;
@@ -77,23 +92,18 @@ public class AILogic : MonoBehaviour
             patrolPointsIndex = 0;
         }
     }
-
-    //feito (estava funcionar)
     private void ChasePlayer()
     {
         agent.SetDestination(player.position);
         anim.SetBool("walking", true);
     }
-
-
-    //por fazer...
     private void AttackPlayer()
     {
         //make sure enemy doesnt move
         agent.SetDestination(transform.position);
         anim.SetBool("walking", false);
 
-        //make AI only look at player in Y axis
+        //make AI only look at player in X and Z axis
         Vector3 lookAtPosition = player.position;
         lookAtPosition.y = transform.position.y;
         transform.LookAt(lookAtPosition);
@@ -112,12 +122,10 @@ public class AILogic : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
-
     private void ResetAttack()
     {
         alreadyAttacked = false;
     }
-
     private void RunFromPlayer()
     {
         anim.SetBool("walking", true);
@@ -128,28 +136,27 @@ public class AILogic : MonoBehaviour
             Debug.Log("running for health");
         } else if (GameObject.FindWithTag("HealthPoint") == null)
         {
+            //calculates distance to player from the ai agent
             float distance = Vector3.Distance(transform.position, player.transform.position);
 
-            if(distance < EnemyDistanceRun)
+            Vector3 dirToPlayer = transform.position - player.transform.position;
+            Vector3 newPos = transform.position + dirToPlayer;
+
+            if (distance < EnemyDistanceRun)
             {
-                
-
-                Vector3 dirToPlayer = transform.position - player.transform.position;
-                Vector3 newPos = transform.position + dirToPlayer;
-
                 agent.SetDestination(newPos);
                 Debug.Log("running from player");
+                Debug.Log(newPos);
+
+            }
+
+            if(aiAgent.transform.position == newPos)
+            {
+                anim.SetBool("walking", false);
             }
         }
-        StartCoroutine(RunFromPlayerCooldown());
+        StartCoroutine(ActionCooldown(5f));
     }
-
-    IEnumerator RunFromPlayerCooldown()
-    {
-        yield return new WaitForSeconds(5);
-        //if(aiAgent != null) ChasePlayer();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -158,23 +165,15 @@ public class AILogic : MonoBehaviour
         anim = GetComponent<Animator>();
         agent.speed = speed;
         healthPoints = GameObject.FindGameObjectsWithTag("HealthPoint");
-        patrolPointsIndex = 0;
-
-        arrays = new Dictionary<string, Transform[]>
-        {
-            { "patrolPoints", patrolPoints},
-        };
     }
-
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
     }
-
     // Update is called once per frame
     void Update()
-    {            
+    {
         //creates a sphere where if the player is inside it, do something
         playerInRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
@@ -185,10 +184,8 @@ public class AILogic : MonoBehaviour
 
         else if (aiFOV.canSeePlayer == true && playerInRange) ChasePlayer();
 
-        if (aiFOV.canSeePlayer == true && playerAttackRange && agentHealth.currentHealth > agentHealth.maxHealth / 2)  AttackPlayer();
-
+        if (aiFOV.canSeePlayer == true && playerAttackRange && agentHealth.currentHealth > agentHealth.maxHealth / 2) AttackPlayer();
     }
-
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

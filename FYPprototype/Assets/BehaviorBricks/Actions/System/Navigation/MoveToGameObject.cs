@@ -1,6 +1,7 @@
 ﻿using Pada1.BBCore.Tasks;
 using Pada1.BBCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BBUnity.Actions
 {
@@ -16,9 +17,7 @@ namespace BBUnity.Actions
         [Help("Target game object towards this game object will be moved")]
         public GameObject target;
 
-        private UnityEngine.AI.NavMeshAgent navAgent;
-
-        private Transform targetTransform;
+        private NavMeshAgent navAgent;
 
         /// <summary>Initialization Method of MoveToGameObject.</summary>
         /// <remarks>Check if GameObject object exists and NavMeshAgent, if there is no NavMeshAgent, the default one is added.</remarks>
@@ -29,7 +28,6 @@ namespace BBUnity.Actions
                 Debug.LogError("The movement target of this game object is null", gameObject);
                 return;
             }
-            targetTransform = target.transform;
 
             navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
             if (navAgent == null)
@@ -37,7 +35,7 @@ namespace BBUnity.Actions
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
                 navAgent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
             }
-			navAgent.SetDestination(targetTransform.position);
+			navAgent.SetDestination(target.transform.position);
             
             #if UNITY_5_6_OR_NEWER
                 navAgent.isStopped = false;
@@ -55,8 +53,8 @@ namespace BBUnity.Actions
                 return TaskStatus.FAILED;
             if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
                 return TaskStatus.COMPLETED;
-            else if (navAgent.destination != targetTransform.position)
-                navAgent.SetDestination(targetTransform.position);
+            else if (navAgent.destination != target.transform.position)
+                navAgent.SetDestination(target.transform.position);
             return TaskStatus.RUNNING;
         }
         /// <summary>Abort method of MoveToGameObject </summary>
