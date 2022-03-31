@@ -7,7 +7,7 @@ namespace BBUnity.Actions
     /// <summary>
     /// It is a basic action to associate a Boolean to a variable.
     /// </summary>
-    [Action("Basic/SetBool")]
+    [Action("MyActions/SetBool")]
     [Help("Sets a value to a boolean variable")]
     public class SetBool : BasePrimitiveAction
     {

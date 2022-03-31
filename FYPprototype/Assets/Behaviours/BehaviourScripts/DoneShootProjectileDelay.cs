@@ -1,19 +1,14 @@
-﻿using Pada1.BBCore;           // Code attributes
+using Pada1.BBCore;           // Code attributes
 using Pada1.BBCore.Tasks;     // TaskStatus
 using UnityEngine;
 
 namespace BBSamples.PQSG // Programmers Quick Start Guide
 {
-    /// <summary>
-    /// DoneShootOnce is a action inherited from DoneShootOnce and Periodically clones a 'bullet' and
-    /// shoots it throught the Forward axis with the specified velocity. This action never ends.
-    /// </summary>
-    [Action("Samples/ProgQuickStartGuide/Shoot")]
+    [Action("Behaviours/BehaviourScripts/DoneShootProjectileDelay")]
     [Help("Periodically clones a 'bullet' and shoots it throught the Forward axis " +
           "with the specified velocity. This action never ends.")]
-    public class DoneShoot : DoneShootOnce
+    public class DoneShootProjectileDelay : DoneShootProjectile
     {
-        ///<value>Input delay Parameter, 30 by default.</value>
         // Define the input parameter delay, with the waited game loops between shoots.
         [InParam("delay", DefaultValue = 30)]
         public int delay;
@@ -21,11 +16,14 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
         // Game loops since the last shoot.
         private int elapsed = 0;
 
-        /// <summary>Update method of DoneShoot.</summary>
-        /// <returns>Return Running task.</returns>
         // Main class method, invoked by the execution engine.
         public override TaskStatus OnUpdate()
         {
+            //Have AI look at the player
+            Vector3 lookAtPosition = target.transform.position;
+            lookAtPosition.y = gameObject.transform.position.y;
+            gameObject.transform.LookAt(lookAtPosition);
+
             if (delay > 0)
             {
                 ++elapsed;
@@ -35,11 +33,9 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
                     return TaskStatus.RUNNING;
                 }
             }
+
             base.OnUpdate();
             return TaskStatus.RUNNING;
-
-        } // OnUpdate
-
-    } // class DoneShoot
-
-} // namespace
+        }
+    }
+}

@@ -69,9 +69,6 @@ public class AILogic : MonoBehaviour
 
         Vector3 distanceToPatrolPoint = transform.position - patrolPoints[patrolPointsIndex].position;
         
-        /*Debug.Log(patrolPointsIndex);
-        Debug.Log(distanceToPatrolPoint.magnitude);*/
-
         //Patrol Point reached
         if (distanceToPatrolPoint.magnitude < 1.5f)
         {

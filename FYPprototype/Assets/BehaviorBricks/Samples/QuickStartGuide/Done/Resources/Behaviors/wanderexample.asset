@@ -58,34 +58,34 @@ MonoBehaviour:
     id=\"3\" />\r\n          <RepeatDecorator id=\"4\" />\r\n          <ConditionNode
     id=\"5\" />\r\n        </nodes>\r\n      </_nodes>\r\n    </BehaviorTree>\r\n   
     <RepeatDecorator id=\"4\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
-    selected=\"False\" position=\"320 42\" name=\"Repeat\" description=\"Repeats
+    selected=\"False\" position=\"382.5562 372.7859\" name=\"Repeat\" description=\"Repeats
     the execution of its child node\" cardinality=\"1\" hasParent=\"False\">\r\n         
     <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"4\" />\r\n       
     </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n    <SequenceNode id=\"3\">\r\n     
-    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"285 178\"
-    name=\"Sequence\" description=\"Executes all its children in sequence until all
-    of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
+    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"347.5562
+    508.7864\" name=\"Sequence\" description=\"Executes all its children in sequence
+    until all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
     <BehaviorTree id=\"0\" />\r\n          <SequenceNode id=\"3\" />\r\n         
     <RepeatDecorator id=\"4\" />\r\n        </data>\r\n      </_data>\r\n    </SequenceNode>\r\n   
     <ConditionNode id=\"5\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"22 347\" name=\"Basic/CheckMouseButton\" description=\"Checks whether
-    a mouse button is pressed\" cardinality=\"0\" hasParent=\"True\">\r\n         
+    position=\"84.55573 677.7856\" name=\"Basic/CheckMouseButton\" description=\"Checks
+    whether a mouse button is pressed\" cardinality=\"0\" hasParent=\"True\">\r\n         
     <BehaviorTree id=\"0\" />\r\n          <ConditionNode id=\"5\" />\r\n         
     <SequenceNode id=\"3\" />\r\n        </data>\r\n      </_data>\r\n    </ConditionNode>\r\n   
     <ActionNode id=\"1\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"257 345\" name=\"Navigation/MoveToPosition\" description=\"Moves the
-    game object to a given position by using a NavMeshAgent\" cardinality=\"0\" hasParent=\"True\">\r\n         
-    <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"1\" />\r\n          <SequenceNode
-    id=\"3\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
-    <ActionNode id=\"2\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
-    position=\"463 346\" name=\"Vector3/GetRandomInArea\" description=\"Gets a random
-    position from a given area\" cardinality=\"0\" hasParent=\"True\">\r\n         
+    position=\"319.5563 675.7856\" name=\"Navigation/MoveToPosition\" description=\"Moves
+    the game object to a given position by using a NavMeshAgent\" cardinality=\"0\"
+    hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n          <ActionNode
+    id=\"1\" />\r\n          <SequenceNode id=\"3\" />\r\n        </data>\r\n     
+    </_data>\r\n    </ActionNode>\r\n    <ActionNode id=\"2\">\r\n      <_data>\r\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"525.5554 676.7856\" name=\"Vector3/GetRandomInArea\"
+    description=\"Gets a random position from a given area\" cardinality=\"0\" hasParent=\"True\">\r\n         
     <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"2\" />\r\n          <SequenceNode
     id=\"3\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
     <ConditionEvalNode id=\"0\">\r\n      <_data>\r\n        <data breakpoint=\"0\"
     selected=\"False\" position=\"0 0\" name=\"AlwaysTrue\" description=\"Eval\"
-    cardinality=\"1\" hasParent=\"False\">\r\n          <ConditionEvalNode id=\"0\"
-    />\r\n        </data>\r\n      </_data>\r\n    </ConditionEvalNode>\r\n  </editorInfo>\r\n</BehaviorBricks>"
-  zoom: 0.9
+    cardinality=\"1\" hasParent=\"False\">\r\n          <BehaviorTree id=\"0\" />\r\n       
+    </data>\r\n      </_data>\r\n    </ConditionEvalNode>\r\n  </editorInfo>\r\n</BehaviorBricks>"
+  zoom: 0.8
   subslist: []
   _guid: dab5e3b586203e54ead22cb6827289fe

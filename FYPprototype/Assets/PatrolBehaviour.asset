@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34a7c8ca992f915438a96c2077353778, type: 3}
+  m_Name: PatrolBehaviour
+  m_EditorClassIdentifier: 
+  brickName: Assets/PatrolBehaviour.asset
+  xml: "\uFEFF<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<BehaviorBricks xmlns:ref=\"urn:padaone\"
+    version=\"1.0\">\r\n  <BehaviorTree id=\"0\" />\r\n  <runtimeInfo>\r\n    <BehaviorTree
+    id=\"0\" guid=\"020a14d950b0f164aa811fb008127e98\" nextId=\"6\">\r\n      <root>\r\n       
+    <RepeatDecorator id=\"1\" />\r\n      </root>\r\n      <inputParams>\r\n       
+    <inputValues>\r\n          <entry name=\"distanceToPatrol\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"False\" />\r\n          <entry name=\"patrol Points\" type=\"System.Collections.Generic.List`1[[UnityEngine.Transform,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]\"
+    isBlackboard=\"False\" />\r\n        </inputValues>\r\n      </inputParams>\r\n     
+    <outputParams />\r\n      <localParams>\r\n        <localValues>\r\n         
+    <entry name=\"wanderTarget\" type=\"UnityEngine.Vector3\" isBlackboard=\"False\"
+    value=\"2 0 0\" />\r\n          <entry name=\"patrolPointsIndex\" type=\"System.Int32\"
+    isBlackboard=\"False\" />\r\n        </localValues>\r\n      </localParams>\r\n   
+    </BehaviorTree>\r\n    <RepeatDecorator id=\"1\" loops=\"-1\" policy=\"ContinueWhenChildFails\">\r\n     
+    <child>\r\n        <SequenceNode id=\"2\" />\r\n      </child>\r\n      <inputParams
+    />\r\n      <outputParams />\r\n      <localParams />\r\n    </RepeatDecorator>\r\n   
+    <SequenceNode id=\"2\">\r\n      <children>\r\n        <elem>\r\n          <ActionNode
+    id=\"3\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"4\"
+    />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode id=\"5\" />\r\n       
+    </elem>\r\n      </children>\r\n      <inputParams />\r\n      <outputParams
+    />\r\n      <localParams />\r\n    </SequenceNode>\r\n    <ActionNode id=\"3\"
+    action=\"Behaviours/BehaviourScripts/PatrolPointFinder\">\r\n      <inputParams>\r\n       
+    <inputValues>\r\n          <entry name=\"Target Destination\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"True\" blackboard=\"wanderTarget\" />\r\n          <entry name=\"Wander
+    Area\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\" blackboard=\"wanderArea\"
+    />\r\n          <entry name=\"wanderTarget\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\"
+    blackboard=\"patrolPointsIndex\" />\r\n          <entry name=\"patrolPointsIndex\"
+    type=\"System.Int32\" isBlackboard=\"True\" blackboard=\"patrolPointsIndex\"
+    />\r\n          <entry name=\"Patrol Points\" type=\"UnityEngine.Transform[]\"
+    isBlackboard=\"True\" blackboard=\"Patrol Points Array\" />\r\n        </inputValues>\r\n     
+    </inputParams>\r\n      <outputParams>\r\n        <outputValues>\r\n         
+    <entry name=\"wanderTarget\" type=\"UnityEngine.Vector3\" isBlackboard=\"True\"
+    blackboard=\"wanderTarget\" />\r\n          <entry name=\"distanceToPatrol\"
+    type=\"UnityEngine.Vector3\" isBlackboard=\"True\" blackboard=\"distanceToPatrol\"
+    />\r\n          <entry name=\"patrolPointsIndex\" type=\"System.Int32\" isBlackboard=\"True\"
+    blackboard=\"patrolPointsIndex\" />\r\n          <entry name=\"patrolPoints[]\"
+    type=\"System.Collections.Generic.List`1[[UnityEngine.Transform, UnityEngine.CoreModule,
+    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]\" isBlackboard=\"True\"
+    blackboard=\"patrol Points\" />\r\n          <entry name=\"patrol Points\" type=\"System.Collections.Generic.List`1[[UnityEngine.Transform,
+    UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]\"
+    isBlackboard=\"True\" blackboard=\"patrol Points\" />\r\n        </outputValues>\r\n     
+    </outputParams>\r\n      <localParams />\r\n    </ActionNode>\r\n    <ActionNode
+    id=\"4\" action=\"Behaviour/BehaviourScripts/MoveToPatrolPoint\">\r\n      <inputParams>\r\n       
+    <inputValues>\r\n          <entry name=\"target\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"True\" blackboard=\"wanderTarget\" />\r\n          <entry name=\"wanderTarget\"
+    type=\"UnityEngine.Vector3\" isBlackboard=\"True\" blackboard=\"wanderTarget\"
+    />\r\n          <entry name=\"distanceToPatrol\" type=\"UnityEngine.Vector3\"
+    isBlackboard=\"False\" value=\"0 0 0\" />\r\n        </inputValues>\r\n     
+    </inputParams>\r\n      <outputParams>\r\n        <outputValues>\r\n         
+    <entry name=\"patrolPointsIndex\" type=\"System.Int32\" isBlackboard=\"True\"
+    blackboard=\"patrolPointsIndex\" />\r\n        </outputValues>\r\n      </outputParams>\r\n     
+    <localParams />\r\n    </ActionNode>\r\n    <ActionNode id=\"5\" action=\"Behaviours/BehaviourScripts/ChangePatrolIndex\">\r\n     
+    <inputParams>\r\n        <inputValues>\r\n          <entry name=\"patrolPoints[]\"
+    type=\"System.Collections.Generic.List`1[[UnityEngine.Transform, UnityEngine.CoreModule,
+    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]\" isBlackboard=\"True\"
+    blackboard=\"patrol Points\" />\r\n          <entry name=\"CurrentPatrolPointIndex\"
+    type=\"System.Int32\" isBlackboard=\"True\" blackboard=\"patrolPointsIndex\"
+    />\r\n        </inputValues>\r\n      </inputParams>\r\n      <outputParams>\r\n       
+    <outputValues>\r\n          <entry name=\"patrolPointsIndex\" type=\"System.Int32\"
+    isBlackboard=\"True\" blackboard=\"patrolPointsIndex\" />\r\n          <entry
+    name=\"NewPatrolPointsIndex\" type=\"System.Int32\" isBlackboard=\"True\" blackboard=\"patrolPointsIndex\"
+    />\r\n        </outputValues>\r\n      </outputParams>\r\n      <localParams
+    />\r\n    </ActionNode>\r\n  </runtimeInfo>\r\n  <editorInfo>\r\n    <BehaviorTree
+    id=\"0\" _name=\"PatrolBehaviour\" _description=\"\" _removeIfClosed=\"False\">\r\n     
+    <_rootList>\r\n        <elem>\r\n          <RepeatDecorator id=\"1\" />\r\n       
+    </elem>\r\n        <elem>\r\n          <SequenceNode id=\"2\" />\r\n        </elem>\r\n       
+    <elem>\r\n          <ActionNode id=\"3\" />\r\n        </elem>\r\n        <elem>\r\n         
+    <ActionNode id=\"4\" />\r\n        </elem>\r\n        <elem>\r\n          <ActionNode
+    id=\"5\" />\r\n        </elem>\r\n      </_rootList>\r\n      <_nodes>\r\n       
+    <nodes>\r\n          <RepeatDecorator id=\"1\" />\r\n          <SequenceNode
+    id=\"2\" />\r\n          <ActionNode id=\"3\" />\r\n          <ActionNode id=\"4\"
+    />\r\n          <ActionNode id=\"5\" />\r\n        </nodes>\r\n      </_nodes>\r\n   
+    </BehaviorTree>\r\n    <RepeatDecorator id=\"1\">\r\n      <_data>\r\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"277.0115 123\" name=\"Repeat\"
+    description=\"Repeats the execution of its child node\" cardinality=\"1\" hasParent=\"False\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <RepeatDecorator id=\"1\" />\r\n       
+    </data>\r\n      </_data>\r\n    </RepeatDecorator>\r\n    <SequenceNode id=\"2\">\r\n     
+    <_data>\r\n        <data breakpoint=\"0\" selected=\"False\" position=\"267.0115
+    276\" name=\"Sequence\" description=\"Executes all its children in sequence until
+    all of them are successful\" cardinality=\"-1\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <SequenceNode id=\"2\" />\r\n         
+    <RepeatDecorator id=\"1\" />\r\n        </data>\r\n      </_data>\r\n    </SequenceNode>\r\n   
+    <ActionNode id=\"3\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"True\"
+    position=\"-28.48849 422.1389\" name=\"Behaviours/BehaviourScripts/PatrolPointFinder\"
+    description=\"Checks which patrol point it is on\" cardinality=\"0\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"3\" />\r\n          <SequenceNode
+    id=\"2\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n   
+    <ActionNode id=\"4\">\r\n      <_data>\r\n        <data breakpoint=\"0\" selected=\"False\"
+    position=\"218.1504 426\" name=\"Behaviour/BehaviourScripts/MoveToPatrolPoint\"
+    description=\"Moves the game object to a given patrol point by using a NavMeshAgent\"
+    cardinality=\"0\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n         
+    <ActionNode id=\"4\" />\r\n          <SequenceNode id=\"2\" />\r\n        </data>\r\n     
+    </_data>\r\n    </ActionNode>\r\n    <ActionNode id=\"5\">\r\n      <_data>\r\n       
+    <data breakpoint=\"0\" selected=\"False\" position=\"473.75 426.25\" name=\"Behaviours/BehaviourScripts/ChangePatrolIndex\"
+    description=\"Checks which patrol point it is on\" cardinality=\"0\" hasParent=\"True\">\r\n         
+    <BehaviorTree id=\"0\" />\r\n          <ActionNode id=\"5\" />\r\n          <SequenceNode
+    id=\"2\" />\r\n        </data>\r\n      </_data>\r\n    </ActionNode>\r\n  </editorInfo>\r\n</BehaviorBricks>"
+  zoom: 0.8
+  subslist: []
+  _guid: 020a14d950b0f164aa811fb008127e98

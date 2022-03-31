@@ -22,7 +22,7 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstructionMask;
 
     public bool canSeePlayer;
-
+     
 
     private void Start()
     {

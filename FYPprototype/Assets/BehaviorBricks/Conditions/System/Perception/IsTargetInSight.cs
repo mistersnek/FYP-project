@@ -27,7 +27,7 @@ namespace BBUnity.Conditions
         /// <returns>True if the angle of forward vector with the  raycast direction is lower than the given angle.</returns>
         public override bool Check()
 		{
-            Vector3 dir = (target.transform.position - gameObject.transform.position);
+            Vector3 dir = target.transform.position - gameObject.transform.position;
             RaycastHit hit;
             if (Physics.Raycast(gameObject.transform.position + new Vector3(0, 0.1f, 0), dir, out hit))
             {

@@ -686,7 +686,7 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2.1617022
+  m_Height: 2.1
   m_Direction: 1
   m_Center: {x: 0, y: -0.5808511, z: 0}
 --- !u!54 &4578009567164040772
@@ -823,9 +823,6 @@ MonoBehaviour:
   maxHealth: 100
   agent: {fileID: 5663886037939124531}
   gotAttacked: 0
-  timesToStagger: 3
-  readyToStagger: 0
-  staggerTime: 100
   agentRig: {fileID: 7034599926902073643}
 --- !u!54 &988461545
 Rigidbody:

@@ -16,6 +16,8 @@ public class Spawner : MonoBehaviour {
     ///<value>Target GameObject to follow</value>
     public GameObject player;
 
+    private BehaviorExecutor behaviorExecutor;
+
     //public Text text;
 
     /// <summary>
@@ -23,7 +25,7 @@ public class Spawner : MonoBehaviour {
     /// </summary>
 	void Start() {
         GameObject instance = Instantiate(prefab,position,Quaternion.identity) as GameObject;
-        BehaviorExecutor behaviorExecutor = instance.GetComponent<BehaviorExecutor>();
+        behaviorExecutor = instance.GetComponent<BehaviorExecutor>();
 
 
 		//Codigo comentado para comprobaciones de editor y runtime
@@ -38,5 +40,5 @@ public class Spawner : MonoBehaviour {
             behaviorExecutor.SetBehaviorParam("wanderArea", wanderArea);
             behaviorExecutor.SetBehaviorParam("player", player);
         }
-	}
+    }
 }

@@ -1,52 +1,48 @@
-﻿using Pada1.BBCore.Tasks;
+using Pada1.BBCore.Tasks;
 using Pada1.BBCore;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace BBUnity.Actions
-{
+{    
     /// <summary>
     /// It is an action to move towards the given goal using a NavMeshAgent.
     /// </summary>
-    [Action("Navigation/MoveToGameObject")]
+    [Action("Behaviours/BehaviourScripts/MoveToPlayer")]
     [Help("Moves the game object towards a given target by using a NavMeshAgent")]
-    public class MoveToGameObject : GOAction
+    public class MoveToPlayer : GOAction
     {
+        private Animator anim;
         ///<value>Input target game object towards this game object will be moved Parameter.</value>
         [InParam("target")]
         [Help("Target game object towards this game object will be moved")]
         public GameObject target;
-
-        private NavMeshAgent navAgent;
-        private Animator anim;
-
-        [InParam("agent speed")]
-        [Help("Speed at which the agent moves")]
+        [InParam("speed")]
+        [Help("AI agent move speed")]
         public float speed;
 
+        private NavMeshAgent navAgent;
 
         /// <summary>Initialization Method of MoveToGameObject.</summary>
         /// <remarks>Check if GameObject object exists and NavMeshAgent, if there is no NavMeshAgent, the default one is added.</remarks>
         public override void OnStart()
         {
-           
             if (target == null)
             {
                 Debug.LogError("The movement target of this game object is null", gameObject);
                 return;
             }
 
-            anim = gameObject.GetComponent<Animator>();
             navAgent = gameObject.GetComponent<NavMeshAgent>();
-            navAgent.speed = speed;
             if (navAgent == null)
             {
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
                 navAgent = gameObject.AddComponent<NavMeshAgent>();
             }
+            navAgent.speed = speed;
             navAgent.SetDestination(target.transform.position);
-            if(anim != null)
-                anim.SetBool("walking", true);
+            anim = gameObject.GetComponent<Animator>();
+            anim.SetBool("walking", true);
         }
 
         /// <summary>Method of Update of MoveToGameObject.</summary>
@@ -57,27 +53,10 @@ namespace BBUnity.Actions
             if (target == null)
                 return TaskStatus.FAILED;
             if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
-            {
-                anim.SetBool("walking", false);
                 return TaskStatus.COMPLETED;
-            }
             else if (navAgent.destination != target.transform.position)
                 navAgent.SetDestination(target.transform.position);
             return TaskStatus.RUNNING;
         }
-        /*/// <summary>Abort method of MoveToGameObject </summary>
-        /// <remarks>When the task is aborted, it stops the navAgentMesh.</remarks>
-        public override void OnAbort()
-        {
-
-        #if UNITY_5_6_OR_NEWER
-            if(navAgent!=null)
-                navAgent.isStopped = true;
-        #else
-            if (navAgent!=null)
-                navAgent.Stop();
-        #endif
-
-        }*/
     }
 }
