@@ -22,9 +22,7 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
 
         // Define the input parameter velocity, and provide a default
         // value of 30.0 when used as CONSTANT in the editor.
-        [InParam("velocity", DefaultValue = 30f)]
-
-        //Velocity of the projectile
+        [InParam("velocity", DefaultValue = 60.0f)]
         public float velocity;
 
         //For the Animator reference
@@ -54,8 +52,10 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
             if (shootPoint == null)
             {
                 return TaskStatus.FAILED;
-            }       
+            }
 
+            //Quaternion rotation = Quaternion.LookRotation(target.transform.position - gameObject.transform.position, gameObject.transform.TransformDirection(Vector3.up));
+            shootPoint.LookAt(target.transform);
             GameObject newBullet = GameObject.Instantiate(bullet, shootPoint.position, Quaternion.identity) as GameObject;
             newBullet.GetComponent<Rigidbody>().velocity = velocity * shootPoint.forward;
             anim.SetTrigger("attacking");

@@ -29,7 +29,6 @@ namespace BBUnity.Actions
         /// <remarks>Check if GameObject object exists and NavMeshAgent, if there is no NavMeshAgent, the default one is added.</remarks>
         public override void OnStart()
         {
-           
             if (target == null)
             {
                 Debug.LogError("The movement target of this game object is null", gameObject);
@@ -39,12 +38,15 @@ namespace BBUnity.Actions
             anim = gameObject.GetComponent<Animator>();
             navAgent = gameObject.GetComponent<NavMeshAgent>();
             navAgent.speed = speed;
+
             if (navAgent == null)
             {
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
                 navAgent = gameObject.AddComponent<NavMeshAgent>();
             }
+
             navAgent.SetDestination(target.transform.position);
+
             if(anim != null)
                 anim.SetBool("walking", true);
         }
@@ -65,19 +67,5 @@ namespace BBUnity.Actions
                 navAgent.SetDestination(target.transform.position);
             return TaskStatus.RUNNING;
         }
-        /*/// <summary>Abort method of MoveToGameObject </summary>
-        /// <remarks>When the task is aborted, it stops the navAgentMesh.</remarks>
-        public override void OnAbort()
-        {
-
-        #if UNITY_5_6_OR_NEWER
-            if(navAgent!=null)
-                navAgent.isStopped = true;
-        #else
-            if (navAgent!=null)
-                navAgent.Stop();
-        #endif
-
-        }*/
     }
 }
