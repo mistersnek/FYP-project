@@ -22,7 +22,7 @@ public class SwordController : MonoBehaviour
     {        
         if (Input.GetMouseButtonDown(0))
         {
-            if (CanAttack)
+            if (CanAttack && PauseMenu.isPaused == false)
             {
                 SwordAttack();
             }

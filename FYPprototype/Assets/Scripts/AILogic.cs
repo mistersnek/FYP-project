@@ -1,11 +1,10 @@
 //Code adapted from :
-//TheKiwiCoder - https://www.youtube.com/watch?v=znZXmmyBF-o
-//Brackeys - https://www.youtube.com/watch?v=znZXmmyBF-o
-//DaveGameDevelopment - https://www.youtube.com/watch?v=UjkSFoLxesw
-//Jayanam - https://www.youtube.com/watch?v=Zjlg9F3FRJs
-//KeySmash Studios - https://www.youtube.com/watch?v=22PZJlpDkPE
+//DaveGameDevelopment - https://www.youtube.com/watch?v=UjkSFoLxesw code used in the Update, ChasePlayer, AttackPlayer and ResetAttacks
+//Jayanam - https://www.youtube.com/watch?v=Zjlg9F3FRJs to have the AI flee the player when the health is low used in the RunFromPlaye method
+//KeySmash Studios - https://www.youtube.com/watch?v=22PZJlpDkPE used on the patrolling method
 
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,7 +18,7 @@ public class AILogic : MonoBehaviour
     public float speed = 6f;
 
     //reference to the player and a layer mask to identify what is the player
-    public Transform player;
+    public GameObject player;
     public LayerMask whatIsPlayer;
 
 
@@ -46,7 +45,7 @@ public class AILogic : MonoBehaviour
     private AIHealth agentHealth;
 
     //array of healthpoints that saves their positions 3D
-    private GameObject[] healthPoints;
+    public List<Transform> healthPoints = new List<Transform>();
 
     //distance the enemy runs from player when too low on health
     public float EnemyDistanceRun = 12f;
@@ -62,6 +61,7 @@ public class AILogic : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldownTime);
     }
+
     private void Patrolling()
     {
         agent.SetDestination(patrolPoints[patrolPointsIndex].position);
@@ -78,7 +78,7 @@ public class AILogic : MonoBehaviour
 
         if(agentHealth.gotAttacked == true)
         {
-            transform.LookAt(new Vector3(player.position.x, 0, player.position.z));
+            transform.LookAt(new Vector3(player.transform.position.x, 0, player.transform.position.z));
         }
     }
     private void IncreaseIndex()
@@ -91,7 +91,7 @@ public class AILogic : MonoBehaviour
     }
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        agent.SetDestination(player.transform.position);
         anim.SetBool("walking", true);
     }
     private void AttackPlayer()
@@ -101,7 +101,7 @@ public class AILogic : MonoBehaviour
         anim.SetBool("walking", false);
 
         //make AI only look at player in X and Z axis
-        Vector3 lookAtPosition = player.position;
+        Vector3 lookAtPosition = player.transform.position;
         lookAtPosition.y = transform.position.y;
         transform.LookAt(lookAtPosition);
 
@@ -161,11 +161,12 @@ public class AILogic : MonoBehaviour
         agentHealth = GetComponent<AIHealth>();
         anim = GetComponent<Animator>();
         agent.speed = speed;
-        healthPoints = GameObject.FindGameObjectsWithTag("HealthPoint");
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("HealthPoint"))
+                healthPoints.Add(go.GetComponent<Transform>());
     }
     private void Awake()
     {
-        player = GameObject.Find("Player").transform;
+        player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
     }
     // Update is called once per frame

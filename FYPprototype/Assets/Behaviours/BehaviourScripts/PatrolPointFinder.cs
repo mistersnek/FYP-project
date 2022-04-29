@@ -38,8 +38,8 @@ namespace BBUnity.Actions
         public override void OnStart()
         {
 
-                foreach (GameObject go in GameObject.FindGameObjectsWithTag("PatrolPoint"))
-                    patrolPoints.Add(go.GetComponent<Transform>());
+            foreach (GameObject go in GameObject.FindGameObjectsWithTag("PatrolPoint"))
+                patrolPoints.Add(go.GetComponent<Transform>());
 
 
             WanderTarget = patrolPoints[patrolPointsIndex].position;

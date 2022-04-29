@@ -25,13 +25,16 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
         [InParam("velocity", DefaultValue = 60.0f)]
         public float velocity;
 
+        [InParam("upwardForce")]
+        public float upwardForce;
+
         //For the Animator reference
         private Animator anim;
 
         //What is the target
-        [InParam("target")]
+        [InParam("Target to shoot at")]
         [Help("Target to check the distance")]
-        public GameObject target;
+        public GameObject targetToShootAt;
 
         //For the NavMeshAgent reference
         private NavMeshAgent navAgent;
@@ -54,11 +57,17 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
                 return TaskStatus.FAILED;
             }
 
+            if (Time.timeScale == 0) {
+                return TaskStatus.COMPLETED;
+            }
+
+
             //Quaternion rotation = Quaternion.LookRotation(target.transform.position - gameObject.transform.position, gameObject.transform.TransformDirection(Vector3.up));
-            shootPoint.LookAt(target.transform);
+            shootPoint.LookAt(targetToShootAt.transform);
+            anim.SetTrigger("attacking");
             GameObject newBullet = GameObject.Instantiate(bullet, shootPoint.position, Quaternion.identity) as GameObject;
             newBullet.GetComponent<Rigidbody>().velocity = velocity * shootPoint.forward;
-            anim.SetTrigger("attacking");
+            newBullet.GetComponent<Rigidbody>().AddForce(gameObject.transform.up * upwardForce, ForceMode.Impulse);           
 
             return TaskStatus.COMPLETED;
         }

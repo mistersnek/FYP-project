@@ -19,7 +19,7 @@ namespace BBUnity.Actions
         [InParam("CurrentPatrolPointIndex")]
         public int currentPatrolPointsIndex;
 
-        [OutParam("NewPatrolPointsIndex")]
+        [OutParam("PatrolPointsIndex")]
         [Help("Patrol points index")]
         public int patrolPointsIndex;
 
@@ -35,7 +35,6 @@ namespace BBUnity.Actions
             {
                patrolPointsIndex = 0;
             }
-
         }
 
         public override TaskStatus OnUpdate()

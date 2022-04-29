@@ -3,11 +3,12 @@ using UnityEngine;
 public class RotatingPill : MonoBehaviour
 {
     private float healthGain = 20f;
+
     AIHealth health;
 
     private void Awake()
     {
-        health = FindObjectOfType<AIHealth>();
+        
     }
 
     // Update is called once per frame
@@ -16,14 +17,21 @@ public class RotatingPill : MonoBehaviour
         transform.RotateAround(transform.position, Vector3.up, 20 * Time.deltaTime);
     }
 
-    public void OnCollisionEnter(Collision col)
+    public void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "AI" && health.currentHealth <= 100)
-        {
-            health.IncreaseHealth(healthGain);
+        if (col.tag == "AI")
+        {           
+            health = col.transform.root.GetComponent<AIHealth>();
+
+            //example: current health is 50, if lower than the max health - 20, give it 20 health
+            if(health.currentHealth < health.maxHealth - healthGain)
+                health.IncreaseHealth(healthGain);
+            //else give it the remaining health    
+            else
+                health.IncreaseHealth(health.maxHealth - health.currentHealth);
+            
+            Debug.Log("Current health + " + healthGain + " :" + health.currentHealth);
             Destroy(gameObject);
         }
-        else if (health.currentHealth > 100)
-            Destroy(gameObject);
     }
 }

@@ -11,10 +11,11 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Drag scene camera here (NOT CINEMACHINE CAM)")]
     //cam references used for pointing the cam where the player is facing
-    public Transform cam;
+    public Transform cam;   
 
-    [Header("Walking Speed")]
+    
     float speed = 5f;
+    [Header("Walking Speed")]
     public float currentSpeed;
 
     [Header("How smooth turning is")]
@@ -37,7 +38,7 @@ public class ThirdPersonMovement : MonoBehaviour
     void Start()
     {
         currentSpeed = speed;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
         anim = GetComponentInChildren<Animator>();
         Physics.IgnoreLayerCollision(6,8);
     }
@@ -133,5 +134,4 @@ public class ThirdPersonMovement : MonoBehaviour
         else
             currentSpeed = speed;
     }
-
 }

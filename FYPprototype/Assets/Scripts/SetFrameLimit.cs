@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SetFrameLimit : MonoBehaviour
@@ -10,5 +8,7 @@ public class SetFrameLimit : MonoBehaviour
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = targetFrameRate;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

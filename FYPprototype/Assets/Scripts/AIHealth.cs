@@ -6,7 +6,6 @@ public class AIHealth : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
-    private int timesAttackedCounter;
     public float maxHealth;
     public NavMeshAgent agent;
     private Animator anim;
@@ -35,11 +34,10 @@ public class AIHealth : MonoBehaviour
 
         if (currentHealth <= 0.0f) Ragdoll();
 
-        timesAttackedCounter++;
     }
     public void IncreaseHealth(float amount)
     {
-        currentHealth = currentHealth + amount;
+        currentHealth += amount;
     }
 
     private void Ragdoll()

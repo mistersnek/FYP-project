@@ -4,18 +4,23 @@ public class DestroySelfBullet : MonoBehaviour
 {
     public GameObject particle;
 
-    private void Start()
-    {
-        // particle.Stop();
+    public TrailRenderer Trail;
 
+     private void Awake() {
+        Trail = GetComponentInParent<TrailRenderer>();
     }
 
     //On collision with objects with tags, play the particle system and destroy itself
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("Player") || col.transform.CompareTag("Environment"))
+        if (!col.transform.CompareTag("AI") || col.transform.CompareTag("Environment"))
         {
+            
+            /*Trail.autodestruct = true;
+            Trail = null;*/
+
             Instantiate(particle, this.transform.position, Quaternion.identity);
+
             Destroy(gameObject);
         }
     }

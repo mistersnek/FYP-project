@@ -20,7 +20,7 @@ namespace BBSamples.PQSG // Programmers Quick Start Guide
         public override TaskStatus OnUpdate()
         {
             //Have AI look at the player
-            Vector3 lookAtPosition = target.transform.position;
+            Vector3 lookAtPosition = targetToShootAt.transform.position;
             lookAtPosition.y = gameObject.transform.position.y;
             gameObject.transform.LookAt(lookAtPosition);
 

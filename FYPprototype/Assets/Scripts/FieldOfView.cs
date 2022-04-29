@@ -1,5 +1,6 @@
 //Code adapted from:
-//Comp-3 Interactive - https://www.youtube.com/watch?v=j1-OyLo77ss
+//Comp-3 Interactive - https://www.youtube.com/watch?v=j1-OyLo77ss 90% of the code used in this script 
+// the only part being mine is the if conditions to check if the player is crouched
 
 using System;
 using System.Collections;
@@ -22,12 +23,16 @@ public class FieldOfView : MonoBehaviour
     public LayerMask obstructionMask;
 
     public bool canSeePlayer;
+
+    public GameObject pointOfRaycast;
+
+    public bool playerCanBeSeen;
      
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        crouch = player.GetComponent<ThirdPersonMovement>();
+        /*player = GameObject.FindGameObjectWithTag("Player");
+        crouch = player.GetComponent<ThirdPersonMovement>();*/
         StartCoroutine(FOVRoutine());
         curRadius = radius;
         curAngle = angle;
@@ -71,7 +76,7 @@ public class FieldOfView : MonoBehaviour
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
                 
                 //casts a raycast starting at the AI agent, directed towards the player, with a distance that ends when it reaches the player taking into consideration any obstacles
-                if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
+                if (!Physics.Raycast(pointOfRaycast.transform.position, directionToTarget, distanceToTarget, obstructionMask))
                     canSeePlayer = true;
                 else
                     canSeePlayer = false;
@@ -81,5 +86,12 @@ public class FieldOfView : MonoBehaviour
         }
         else if (canSeePlayer)
             canSeePlayer = false;
+    }
+
+    public bool CanSeePlayer(){
+        if(canSeePlayer == true)
+            return true;
+        else
+        return false;
     }
 }

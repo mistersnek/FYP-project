@@ -28,5 +28,5 @@ namespace BBUnity.Conditions
             else
                 return false;
         }
-    }
+    }    
 }

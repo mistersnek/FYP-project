@@ -24,7 +24,6 @@ namespace BBUnity.Actions
         [Help("Speed at which the agent moves")]
         public float speed;
 
-
         /// <summary>Initialization Method of MoveToGameObject.</summary>
         /// <remarks>Check if GameObject object exists and NavMeshAgent, if there is no NavMeshAgent, the default one is added.</remarks>
         public override void OnStart()
