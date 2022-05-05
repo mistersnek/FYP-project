@@ -46,7 +46,7 @@ MonoBehaviour:
     <inputParams />\r\n      <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n   
     <SubbehaviorNode id=\"23\">\r\n      <_guid>a9be17fff3c70854f9af42e49d62eb16</_guid>\r\n     
     <inputParams />\r\n      <outputParams />\r\n      <localParams />\r\n    </SubbehaviorNode>\r\n   
-    <ConditionEvalNode id=\"18\" policy=\"WAIT_UNTIL_TRUE_AND_COMPLETE\" name=\"Perception/IsPlayerInSightAndRange\">\r\n     
+    <ConditionEvalNode id=\"18\" policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Perception/IsPlayerInSightAndRange\">\r\n     
     <inputParams>\r\n        <inputValues>\r\n          <entry name=\"closeDistance\"
     type=\"System.Single\" isBlackboard=\"False\" value=\"20\" />\r\n          <entry
     name=\"target\" type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\"
@@ -63,7 +63,7 @@ MonoBehaviour:
     />\r\n          <entry name=\"upwardForce\" type=\"System.Single\" isBlackboard=\"False\"
     value=\"2\" />\r\n        </inputValues>\r\n      </inputParams>\r\n      <outputParams
     />\r\n      <localParams />\r\n    </ActionNode>\r\n    <ConditionEvalNode id=\"6\"
-    policy=\"WAIT_UNTIL_TRUE_AND_COMPLETE\" name=\"Perception/IsPlayerInSightAndRange\">\r\n     
+    policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Perception/IsPlayerInSightAndRange\">\r\n     
     <inputParams>\r\n        <inputValues>\r\n          <entry name=\"closeDistance\"
     type=\"System.Single\" isBlackboard=\"False\" value=\"40\" />\r\n          <entry
     name=\"target\" type=\"UnityEngine.GameObject\" isBlackboard=\"True\" blackboard=\"target\"
