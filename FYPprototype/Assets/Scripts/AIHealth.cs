@@ -5,7 +5,6 @@ public class AIHealth : MonoBehaviour
 {
     [HideInInspector]
     public float currentHealth;
-
     public float maxHealth;
     public NavMeshAgent agent;
     private Animator anim;
@@ -57,7 +56,6 @@ public class AIHealth : MonoBehaviour
             rigd.isKinematic = false;
 
         GetComponent<NavMeshAgent>().enabled = false;
-       // GetComponent<CapsuleCollider>().enabled = false;
     }
 
     public void RagdollOff()
@@ -69,7 +67,7 @@ public class AIHealth : MonoBehaviour
             rigd.isKinematic = true;
     }
 
-    private void GetComponents()
+    public void GetComponents()
     {
         agent = GetComponent<NavMeshAgent>();
         ragdollColliders = agentRig.GetComponentsInChildren<Collider>();

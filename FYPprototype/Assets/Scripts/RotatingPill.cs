@@ -24,7 +24,8 @@ public class RotatingPill : MonoBehaviour
             health = col.transform.root.GetComponent<AIHealth>();
 
             //example: current health is 50, if lower than the max health - 20, give it 20 health
-            if(health.currentHealth < health.maxHealth - healthGain)
+            if(health.currentHealth < 
+            health.maxHealth - healthGain)
                 health.IncreaseHealth(healthGain);
             //else give it the remaining health    
             else

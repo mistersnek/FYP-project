@@ -42,7 +42,7 @@ MonoBehaviour:
     <child>\r\n              <SubbehaviorNode id=\"13\" />\r\n            </child>\r\n         
     </GuardAndNode>\r\n        </elem>\r\n      </children>\r\n      <inputParams
     />\r\n      <outputParams />\r\n      <localParams />\r\n    </PrioritySelectorNode>\r\n   
-    <ConditionEvalNode id=\"24\" policy=\"WAIT_UNTIL_FALSE_AND_FAIL\" name=\"Behaviours/BehaviourScripts/IsHealthLow\">\r\n     
+    <ConditionEvalNode id=\"24\" policy=\"WAIT_UNTIL_TRUE_AND_COMPLETE\" name=\"Behaviours/BehaviourScripts/IsHealthLow\">\r\n     
     <inputParams />\r\n      <outputParams />\r\n      <localParams />\r\n    </ConditionEvalNode>\r\n   
     <SubbehaviorNode id=\"23\">\r\n      <_guid>a9be17fff3c70854f9af42e49d62eb16</_guid>\r\n     
     <inputParams />\r\n      <outputParams />\r\n      <localParams />\r\n    </SubbehaviorNode>\r\n   
